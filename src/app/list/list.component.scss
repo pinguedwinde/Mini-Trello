@@ -1,0 +1,29 @@
+.odd {
+  background-color: #f1f2f6;
+}
+
+.card {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.item,
+.actions {
+  margin-top: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.item:hover,
+.over {
+  background-color: #ff4081;
+  color: #fff;
+}
+
+.title {
+  background-color: #3f51b5;
+  color: #fff;
+  margin-bottom: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}

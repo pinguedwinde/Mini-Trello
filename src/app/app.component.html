@@ -1,6 +1,28 @@
-<mat-toolbar color="primary">
+<mat-toolbar
+  color="primary"
+  fxLayout="row"
+  fxLayoutAlign="start center"
+  fxLayoutGap="15px"
+>
   <button mat-icon-button aria-label="task icon">
     <mat-icon>task</mat-icon>
   </button>
-  <span>Mini Trello</span>
+  <span fxFlex="auto">Mini Trello</span>
+  <mat-form-field floatLabel="never">
+    <input
+      (keydown.enter)="addList()"
+      [(ngModel)]="listLabel"
+      matInput
+      placeholder="list name"
+      type="text"
+    />
+  </mat-form-field>
+  <button mat-raised-button color="accent" (click)="addList()">
+    <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
+    Add list
+  </button>
 </mat-toolbar>
+
+<div class="p-15" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="15px">
+  <app-list *ngFor="let list of lists" [list]="list"></app-list>
+</div>

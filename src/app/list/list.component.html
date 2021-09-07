@@ -1,0 +1,44 @@
+<div
+  fxLayout="row"
+  color="primary"
+  fxLayoutAlign="start start"
+  fxLayoutGap="15px"
+>
+  <mat-card class="card">
+    <mat-card-title class="title" fxLayoutAlign="center center">
+      {{ list.label }}
+    </mat-card-title>
+    <mat-card-content>
+      <mat-card
+        class="item"
+        [class.odd]="odd"
+        appDrag
+        [index]="index"
+        (switch)="switchItems($event)"
+        *ngFor="let item of list.items; let odd = odd; let index = index"
+      >
+        {{ item.content }}
+      </mat-card>
+    </mat-card-content>
+    <mat-card-actions
+      class="actions"
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      fxLayoutGap="0px"
+    >
+      <mat-form-field floatLabel="never">
+        <input
+          (keydown.enter)="addItem()"
+          [(ngModel)]="itemContent"
+          matInput
+          placeholder="What's need to be done?"
+          type="text"
+        />
+      </mat-form-field>
+      <button mat-raised-button color="accent" (click)="addItem()">
+        <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
+        Create issue
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
