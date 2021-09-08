@@ -14,7 +14,9 @@
         [class.odd]="odd"
         appDrag
         [itemIndex]="itemIndex"
+        [listIndex]="listIndex"
         (switch)="switchItems($event)"
+        (transfer)="transferItem($event)"
         *ngFor="let item of list.items; let odd = odd; let itemIndex = index"
       >
         {{ item.content }}

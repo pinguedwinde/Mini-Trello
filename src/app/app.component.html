@@ -28,5 +28,6 @@
     *ngFor="let list of lists; let listIndex = index"
     [lists]="lists"
     [listIndex]="listIndex"
+    (transfer)="transferItem($event)"
   ></app-list>
 </div>

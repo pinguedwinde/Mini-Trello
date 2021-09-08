@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { List } from './shared/model';
+import { DragEventData, List } from './shared/model';
 
 @Component({
   selector: 'app-root',
@@ -77,5 +77,21 @@ export class AppComponent {
       });
     }
     this.listLabel = '';
+  }
+
+  public transferItem($event: DragEventData) {
+    console.log('treanfer app.comp');
+
+    if (
+      $event.src?.itemIndex !== undefined &&
+      $event.dst?.itemIndex !== undefined &&
+      $event.src?.listIndex !== undefined &&
+      $event.dst?.listIndex !== undefined
+    ) {
+      this.lists[$event.dst.listIndex].items.push(
+        this.lists[$event.src.listIndex].items[$event.src.itemIndex]
+      );
+      this.lists[$event.src.listIndex].items.splice($event.src.itemIndex, 1);
+    }
   }
 }

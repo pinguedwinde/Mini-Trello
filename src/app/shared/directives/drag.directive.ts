@@ -13,7 +13,9 @@ import {
 })
 export class DragDirective {
   @Input('itemIndex') public itemIndex: number;
+  @Input('listIndex') public listIndex: number;
   @Output() public switch: EventEmitter<DragEventData> = new EventEmitter();
+  @Output() public transfer: EventEmitter<DragEventData> = new EventEmitter();
 
   @HostBinding('draggable') public draggable = true;
   @HostBinding('class.over') public isIn = false;
@@ -26,20 +28,34 @@ export class DragDirective {
   }
   @HostListener('dragstart', ['$event']) dragStart($event: DragEvent) {
     if (this.itemIndex && $event.dataTransfer) {
-      $event.dataTransfer.setData('srcIndex', this.itemIndex.toString());
+      $event.dataTransfer.setData('itemIndex', this.itemIndex.toString());
+      $event.dataTransfer.setData('listIndex', this.listIndex.toString());
     }
   }
   @HostListener('drop', ['$event']) drop($event: DragEvent) {
     if (this.itemIndex && $event.dataTransfer) {
       this.isIn = false;
-      this.switch.emit({
-        src: {
-          itemIndex: +$event.dataTransfer?.getData('srcIndex'),
-        },
-        dst: {
-          itemIndex: this.itemIndex,
-        },
-      });
+      const srcListIndex = +$event.dataTransfer.getData('listIndex');
+      if (this.listIndex === srcListIndex) {
+        this.switch.emit({
+          src: {
+            itemIndex: +$event.dataTransfer?.getData('itemIndex'),
+          },
+          dst: {
+            itemIndex: this.itemIndex,
+          },
+        });
+      } else {
+        this.transfer.emit({
+          src: {
+            itemIndex: +$event.dataTransfer.getData('itemIndex'),
+            listIndex: +$event.dataTransfer.getData('listIndex'),
+          },
+          dst: {
+            listIndex: this.listIndex,
+          },
+        });
+      }
     }
   }
   @HostListener('dragover', ['$event']) dragOver($event: DragEvent) {
@@ -48,5 +64,6 @@ export class DragDirective {
 
   constructor() {
     this.itemIndex = 0;
+    this.listIndex = 0;
   }
 }
