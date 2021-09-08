@@ -4,8 +4,8 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@cocktail-store/*": ["src/app/*"],
-      "@cocktail-store-env/*": ["src/environments/*"]
+      "@mini-trello/*": ["src/app/*"],
+      "@mini-trello-env/*": ["src/environments/*"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

@@ -13,9 +13,9 @@
         class="item"
         [class.odd]="odd"
         appDrag
-        [index]="index"
+        [itemIndex]="itemIndex"
         (switch)="switchItems($event)"
-        *ngFor="let item of list.items; let odd = odd; let index = index"
+        *ngFor="let item of list.items; let odd = odd; let itemIndex = index"
       >
         {{ item.content }}
       </mat-card>

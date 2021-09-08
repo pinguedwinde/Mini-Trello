@@ -1,6 +1,5 @@
-import { List } from './../shared/model/list.model';
+import { DragEventData, List } from '@mini-trello/shared/model';
 import { Component, Input, OnInit } from '@angular/core';
-import { Item } from '@cocktail-store/shared/model';
 
 @Component({
   selector: 'app-list',
@@ -8,17 +7,23 @@ import { Item } from '@cocktail-store/shared/model';
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit {
-  @Input() list: List;
+  @Input() lists: List[];
+  @Input() listIndex: number;
+  public list: List;
   public itemContent = '';
 
   constructor() {
+    this.lists = [];
+    this.listIndex = 0;
     this.list = {
       label: '',
       items: [],
     };
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.list = this.lists[this.listIndex];
+  }
 
   public addItem() {
     if (this.itemContent) {
@@ -29,9 +34,17 @@ export class ListComponent implements OnInit {
     this.itemContent = '';
   }
 
-  public switchItems($event: { srcIndex: number; dstIndex: number }) {
-    const tmp = this.list.items[$event.srcIndex];
-    this.list.items[$event.srcIndex] = this.list.items[$event.dstIndex];
-    this.list.items[$event.dstIndex] = tmp;
+  public switchItems($event: DragEventData) {
+    if (
+      $event.src?.itemIndex !== undefined &&
+      $event.dst?.itemIndex !== undefined
+    )
+      [
+        this.list.items[$event.src.itemIndex],
+        this.list.items[$event.dst.itemIndex],
+      ] = [
+        this.list.items[$event.dst.itemIndex],
+        this.list.items[$event.src.itemIndex],
+      ];
   }
 }

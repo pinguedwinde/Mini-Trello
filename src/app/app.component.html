@@ -24,5 +24,9 @@
 </mat-toolbar>
 
 <div class="p-15" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="15px">
-  <app-list *ngFor="let list of lists" [list]="list"></app-list>
+  <app-list
+    *ngFor="let list of lists; let listIndex = index"
+    [lists]="lists"
+    [listIndex]="listIndex"
+  ></app-list>
 </div>

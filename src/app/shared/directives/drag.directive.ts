@@ -1,3 +1,4 @@
+import { DragEventData } from '@mini-trello/shared/model';
 import {
   Directive,
   EventEmitter,
@@ -11,11 +12,8 @@ import {
   selector: '[appDrag]',
 })
 export class DragDirective {
-  @Input('index') public index: number | undefined;
-  @Output() public switch: EventEmitter<{
-    srcIndex: number;
-    dstIndex: number;
-  }> = new EventEmitter();
+  @Input('itemIndex') public itemIndex: number;
+  @Output() public switch: EventEmitter<DragEventData> = new EventEmitter();
 
   @HostBinding('draggable') public draggable = true;
   @HostBinding('class.over') public isIn = false;
@@ -27,16 +25,20 @@ export class DragDirective {
     this.isIn = false;
   }
   @HostListener('dragstart', ['$event']) dragStart($event: DragEvent) {
-    if (this.index && $event.dataTransfer) {
-      $event.dataTransfer.setData('srcIndex', this.index.toString());
+    if (this.itemIndex && $event.dataTransfer) {
+      $event.dataTransfer.setData('srcIndex', this.itemIndex.toString());
     }
   }
   @HostListener('drop', ['$event']) drop($event: DragEvent) {
-    if (this.index && $event.dataTransfer) {
+    if (this.itemIndex && $event.dataTransfer) {
       this.isIn = false;
       this.switch.emit({
-        srcIndex: +$event.dataTransfer?.getData('srcIndex'),
-        dstIndex: this.index,
+        src: {
+          itemIndex: +$event.dataTransfer?.getData('srcIndex'),
+        },
+        dst: {
+          itemIndex: this.itemIndex,
+        },
       });
     }
   }
@@ -44,5 +46,7 @@ export class DragDirective {
     $event.preventDefault();
   }
 
-  constructor() {}
+  constructor() {
+    this.itemIndex = 0;
+  }
 }
